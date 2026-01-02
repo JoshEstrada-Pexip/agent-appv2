@@ -159,9 +159,9 @@ export const App = (): JSX.Element => {
       pexipNode === ''
     ) {
       // Added by Josh Estrada for debugging
-      console.log("THE PEXIP NODE IS", pexipNode)
-      console.log("THE CONNECTION STATE IS", connectionState)
-      console.log("THE CONNECTING CALL IN PROGRESS IS", connectingCallInProgress)
+      console.log("[PexipDebug] THE PEXIP NODE IS", pexipNode)
+      console.log("[PexipDebug] THE CONNECTION STATE IS", connectionState)
+      console.log("[PexipDebug] THE CONNECTING CALL IN PROGRESS IS", connectingCallInProgress)
       // End of debugging
       console.error(
         'Conference connection already in progress, already connected, or invalid parameters'
@@ -173,18 +173,19 @@ export const App = (): JSX.Element => {
     connectingCallInProgress = true
 
     aniName = (await GenesysService.fetchAniName()) ?? ''
-    conferenceAlias = (await GenesysService.isDialOut(pexipNode))
+    // Josh Estrada Temp Fix: Hardcoding domain to match SIP address, while keeping connection URL separate
+    conferenceAlias = (await GenesysService.isDialOut('gcp.pexsupport.com'))
       ? aniName
       : uuidv4()
     // Added by Josh Estrada for debugging
-    console.log("THE CONFERENCE ALIAS IS", conferenceAlias)
+    console.log("[PexipDebug] THE CONFERENCE ALIAS IS", conferenceAlias)
     // End of debugging
 
     const prefixedConfAlias = pexipAppPrefix + conferenceAlias
     // Added by Josh Estrada for debugging
-    console.log("THE PREFIXED CONFERENCE ALIAS IS", prefixedConfAlias)
+    console.log("[PexipDebug] THE PREFIXED CONFERENCE ALIAS IS", prefixedConfAlias)
     const invitationLink = `https://${pexipNode}/webapp/m/${prefixedConfAlias}/step-by-step?role=guest`
-    console.log("THE INVITATION LINK IS", invitationLink)
+    console.log("[PexipDebug] THE INVITATION LINK IS", invitationLink)
     // End of debugging
     let localStream: MediaStream
     let processedStream: MediaStream
@@ -404,7 +405,7 @@ export const App = (): JSX.Element => {
   const handleCopyInvitationLink = (): void => {
     const invitationLink = `https://${pexipNode}/webapp/m/${pexipAppPrefix}${conferenceAlias}/step-by-step?role=guest`
     // Added by Josh Estrada for debugging
-    console.log("THE INVITATION LINK IS", invitationLink)
+    console.log("[PexipDebug] THE INVITATION LINK IS", invitationLink)
     // End of debugging
     const link = document.createElement('input')
     link.value = invitationLink
@@ -547,12 +548,13 @@ export const App = (): JSX.Element => {
       )
 
       await initializeGenesys(state, accessToken)
-      const isCallActive = await GenesysService.isCallActive()
-      if (isCallActive) {
+      await initializeGenesys(state, accessToken)
+      // const isCallActive = await GenesysService.isCallActive()
+      // if (isCallActive) {
         await initConference().catch(console.error)
-      } else {
-        setConnectionState(ConnectionState.Disconnected)
-      }
+      // } else {
+      //   setConnectionState(ConnectionState.Disconnected)
+      // }
     }
   }
 

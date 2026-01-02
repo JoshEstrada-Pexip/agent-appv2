@@ -107,10 +107,10 @@ export const initialize = async (
     // Added by Josh Estrada for debugging
     await conversationsApi.getConversations(opts)
     .then((data) => {
-    console.log(`getConversations success! data: ${JSON.stringify(data, null, 2)}`);
+    console.log(`[PexipDebug] getConversations success! data: ${JSON.stringify(data, null, 2)}`);
   })
   .catch((err) => {
-    console.log("There was a failure calling getConversations");
+    console.log("[PexipDebug] There was a failure calling getConversations");
     console.error(err);
     // End of debugging
   });
