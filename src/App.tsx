@@ -158,6 +158,11 @@ export const App = (): JSX.Element => {
       connectionState === ConnectionState.Connected ||
       pexipNode === ''
     ) {
+      // Added by Josh Estrada for debugging
+      console.log("THE PEXIP NODE IS", pexipNode)
+      console.log("THE CONNECTION STATE IS", connectionState)
+      console.log("THE CONNECTING CALL IN PROGRESS IS", connectingCallInProgress)
+      // End of debugging
       console.error(
         'Conference connection already in progress, already connected, or invalid parameters'
       )
@@ -171,8 +176,16 @@ export const App = (): JSX.Element => {
     conferenceAlias = (await GenesysService.isDialOut(pexipNode))
       ? aniName
       : uuidv4()
+    // Added by Josh Estrada for debugging
+    console.log("THE CONFERENCE ALIAS IS", conferenceAlias)
+    // End of debugging
 
     const prefixedConfAlias = pexipAppPrefix + conferenceAlias
+    // Added by Josh Estrada for debugging
+    console.log("THE PREFIXED CONFERENCE ALIAS IS", prefixedConfAlias)
+    const invitationLink = `https://${pexipNode}/webapp/m/${prefixedConfAlias}/step-by-step?role=guest`
+    console.log("THE INVITATION LINK IS", invitationLink)
+    // End of debugging
     let localStream: MediaStream
     let processedStream: MediaStream
     try {
@@ -390,6 +403,9 @@ export const App = (): JSX.Element => {
 
   const handleCopyInvitationLink = (): void => {
     const invitationLink = `https://${pexipNode}/webapp/m/${pexipAppPrefix}${conferenceAlias}/step-by-step?role=guest`
+    // Added by Josh Estrada for debugging
+    console.log("THE INVITATION LINK IS", invitationLink)
+    // End of debugging
     const link = document.createElement('input')
     link.value = invitationLink
     document.body.appendChild(link)

@@ -48,6 +48,12 @@ let handleConnectCall: () => any
 let onHoldState: boolean = false
 let muteState: boolean = false
 
+// Added by Josh Estrada for debugging
+let opts = { 
+  "communicationType": "Call" // String | Call or Chat communication filtering
+};
+// End of debugging
+
 /**
  * Triggers the login process for Genesys
  * @param pcEnvironment ToDo
@@ -98,6 +104,16 @@ export const initialize = async (
       `v2.users.${userMe.id}.conversations.calls`,
       callsCallback
     )
+    // Added by Josh Estrada for debugging
+    await conversationsApi.getConversations(opts)
+    .then((data) => {
+    console.log(`getConversations success! data: ${JSON.stringify(data, null, 2)}`);
+  })
+  .catch((err) => {
+    console.log("There was a failure calling getConversations");
+    console.error(err);
+    // End of debugging
+  });
   } else {
     throw Error('Cannot get the user ID')
   }
@@ -176,6 +192,7 @@ export const isDialOut = async (sipSource: string): Promise<boolean> => {
   const result = participant?.calls?.some((call) =>
     regExp.test(call?.self?.addressRaw ?? '')
   )
+  console.log("THIS IS THE RESULT OF THE REGEXP TO DETERMINE IF THE CALL IS A DIALOUT", result)
   return result ?? false
 }
 
