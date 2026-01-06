@@ -24,7 +24,7 @@ interface ToolbarProps {
   presenting: boolean
   onCameraMuteChanged: (muted: boolean) => Promise<void>
   onPresentationChanged: () => Promise<void>
-  onCopyInvitationLink: () => void
+  // onCopyInvitationLink: () => void
   onSettingsChanged: (settings: Settings) => Promise<void>
 }
 
@@ -167,7 +167,7 @@ export const Toolbar = (props: ToolbarProps): JSX.Element => {
           </Button>
         </Tooltip>
 
-        <Tooltip text="Copy invitation link">
+        {/* <Tooltip text="Copy invitation link">
           <Button
             onClick={props.onCopyInvitationLink}
             modifier="square"
@@ -175,7 +175,7 @@ export const Toolbar = (props: ToolbarProps): JSX.Element => {
           >
             <Icon source={IconTypes.IconLink} />
           </Button>
-        </Tooltip>
+        </Tooltip> */}
 
         <Tooltip text="Statistics">
           <Button

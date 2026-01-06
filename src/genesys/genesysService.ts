@@ -107,7 +107,7 @@ export const initialize = async (
     // Added by Josh Estrada for debugging
     await conversationsApi.getConversations(opts)
     .then((data) => {
-    console.log(`[PexipDebug] getConversations success! data: ${JSON.stringify(data, null, 2)}`);
+    console.log(`[PexipDebug] getConversations data: ${JSON.stringify(data, null, 2)}`);
   })
   .catch((err) => {
     console.log("[PexipDebug] There was a failure calling getConversations");
@@ -185,14 +185,32 @@ export const isDialOut = async (sipSource: string): Promise<boolean> => {
     (participant) => participant.purpose === GenesysRole.CUSTOMER
   )
 
-  /**  Create a the regexp dynamically.
-  The regex will check the part after the @ of addressRaw (e.g. sip:165049338@pexipdemo.com)
+  /**  Modified by Josh Estrada
+  Extract the root domain from sipSource (e.g., "gcp.pexsupport.com" from "pex-edge2.gcp.pexsupport.com")
+  Then check if the SIP address domain matches this root domain.
+  This allows matching regardless of subdomain configuration.
   */
-  const regExp = new RegExp(`@(${sipSource}$)`)
-  const result = participant?.calls?.some((call) =>
-    regExp.test(call?.self?.addressRaw ?? '')
-  )
-  console.log("THIS IS THE RESULT OF THE REGEXP TO DETERMINE IF THE CALL IS A DIALOUT", result)
+  
+  // Extract root domain from sipSource (take last 2 parts: domain.tld)
+  const sipSourceParts = sipSource.split('.')
+  const rootDomain = sipSourceParts.slice(-2).join('.')
+  
+  const result = participant?.calls?.some(call => {
+    const addr = call?.self?.addressRaw ?? ''
+    console.log("[PexipDebug] SIP address from Genesys:", addr)
+    console.log("[PexipDebug] Checking against root domain:", rootDomain)
+    
+    // Extract domain from SIP address (everything after @)
+    if (addr.includes('@')) {
+      const sipDomain = addr.split('@')[1]
+      const matches = sipDomain.endsWith(rootDomain)
+      console.log("[PexipDebug] SIP domain:", sipDomain, "| Matches:", matches)
+      return matches
+    }
+    return false
+  })
+
+  console.log("[PexipDebug] Result of isDialOut:", result)
   return result ?? false
 }
 

@@ -14,7 +14,7 @@ import {
 import {
   CenterLayout,
   NotificationToast,
-  notificationToastSignal,
+  // notificationToastSignal,
   Spinner,
   Video
 } from '@pexip/components'
@@ -174,7 +174,7 @@ export const App = (): JSX.Element => {
 
     aniName = (await GenesysService.fetchAniName()) ?? ''
     // Josh Estrada Temp Fix: Hardcoding domain to match SIP address, while keeping connection URL separate
-    conferenceAlias = (await GenesysService.isDialOut('gcp.pexsupport.com'))
+    conferenceAlias = (await GenesysService.isDialOut(pexipNode))
       ? aniName
       : uuidv4()
     // Added by Josh Estrada for debugging
@@ -184,8 +184,9 @@ export const App = (): JSX.Element => {
     const prefixedConfAlias = pexipAppPrefix + conferenceAlias
     // Added by Josh Estrada for debugging
     console.log("[PexipDebug] THE PREFIXED CONFERENCE ALIAS IS", prefixedConfAlias)
-    const invitationLink = `https://${pexipNode}/webapp/m/${prefixedConfAlias}/step-by-step?role=guest`
-    console.log("[PexipDebug] THE INVITATION LINK IS", invitationLink)
+    console.log("[PexipDebug] THE PEXIP NODE IS THAT IS DEFINED IN THE GENESYS APP URL IS:", pexipNode)
+    // const invitationLink = `https://${pexipNode}/webapp/m/${prefixedConfAlias}/step-by-step?role=guest`
+    // console.log("[PexipDebug] THE INVITATION LINK IS", invitationLink)
     // End of debugging
     let localStream: MediaStream
     let processedStream: MediaStream
@@ -402,6 +403,7 @@ export const App = (): JSX.Element => {
     }
   }
 
+  /*
   const handleCopyInvitationLink = (): void => {
     const invitationLink = `https://${pexipNode}/webapp/m/${pexipAppPrefix}${conferenceAlias}/step-by-step?role=guest`
     // Added by Josh Estrada for debugging
@@ -419,6 +421,7 @@ export const App = (): JSX.Element => {
       }
     ])
   }
+  */
 
   const handleSettingsChanged = async (settings: Settings): Promise<void> => {
     let newLocalStream = localStream
@@ -672,7 +675,7 @@ export const App = (): JSX.Element => {
             presenting={presenting}
             onCameraMuteChanged={handleCameraMuteChanged}
             onPresentationChanged={handlePresentationChanged}
-            onCopyInvitationLink={handleCopyInvitationLink}
+            // onCopyInvitationLink={handleCopyInvitationLink}
             onSettingsChanged={handleSettingsChanged}
           />
         </>
