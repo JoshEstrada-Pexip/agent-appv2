@@ -50,7 +50,7 @@ let muteState: boolean = false
 
 // Added by Josh Estrada for debugging
 let opts = { 
-  "communicationType": "Call" // String | Call or Chat communication filtering
+  "communicationType": "Call"
 };
 // End of debugging
 
