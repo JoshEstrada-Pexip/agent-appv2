@@ -553,13 +553,12 @@ export const App = (): JSX.Element => {
       )
 
       await initializeGenesys(state, accessToken)
-      await initializeGenesys(state, accessToken)
-      // const isCallActive = await GenesysService.isCallActive()
-      // if (isCallActive) {
+      const isCallActive = await GenesysService.isCallActive()
+      if (isCallActive) {
         await initConference().catch(console.error)
-      // } else {
-      //   setConnectionState(ConnectionState.Disconnected)
-      // }
+      } else {
+        setConnectionState(ConnectionState.Disconnected)
+      }
     }
   }
 
