@@ -9,8 +9,7 @@ import {
 } from '@pexip/media-processor'
 import { type Effect } from '../types/Effect'
 
-// Modified by Josh Estrada for RBFCU path
-const basePath = '/telecom/agent-appv2'
+const basePath = import.meta.env.BASE_URL
 
 export const getVideoProcessor = async (
   effect: Effect
