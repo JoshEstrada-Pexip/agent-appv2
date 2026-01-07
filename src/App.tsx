@@ -179,10 +179,6 @@ export const App = (): JSX.Element => {
     // conferenceAlias = (await GenesysService.isDialOut(pexipNode))
     //   ? conferenceAlias
     //   : uuidv4()
-    
-    // Added by Josh Estrada for debugging
-    console.log("[PexipDebug] THE CONFERENCE ALIAS IS", conferenceAlias)
-    // End of debugging
 
     const prefixedConfAlias = pexipAppPrefix + conferenceAlias
     // Added by Josh Estrada for debugging
