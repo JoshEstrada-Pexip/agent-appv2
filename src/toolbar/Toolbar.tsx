@@ -24,7 +24,8 @@ interface ToolbarProps {
   presenting: boolean
   onCameraMuteChanged: (muted: boolean) => Promise<void>
   onPresentationChanged: () => Promise<void>
-  // onCopyInvitationLink: () => void
+  /* Commented out by Josh Estrada. Not needed for RBFCU at this time */
+  /* onCopyInvitationLink: () => void */
   onSettingsChanged: (settings: Settings) => Promise<void>
 }
 
@@ -167,6 +168,7 @@ export const Toolbar = (props: ToolbarProps): JSX.Element => {
           </Button>
         </Tooltip>
 
+        {/* Commented out by Josh Estrada. Not needed for RBFCU at this time */}
         {/* <Tooltip text="Copy invitation link">
           <Button
             onClick={props.onCopyInvitationLink}

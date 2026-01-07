@@ -185,9 +185,12 @@ export const App = (): JSX.Element => {
     // Added by Josh Estrada for debugging
     console.log("[PexipDebug] THE PREFIXED CONFERENCE ALIAS IS", prefixedConfAlias)
     console.log("[PexipDebug] THE PEXIP NODE IS THAT IS DEFINED IN THE GENESYS APP URL IS:", pexipNode)
-    // const invitationLink = `https://${pexipNode}/webapp/m/${prefixedConfAlias}/step-by-step?role=guest`
-    // console.log("[PexipDebug] THE INVITATION LINK IS", invitationLink)
-    // End of debugging
+
+    /* Commented out by Josh Estrada. Not needed for RBFCU at this time
+    const invitationLink = `https://${pexipNode}/webapp/m/${prefixedConfAlias}/step-by-step?role=guest`
+    console.log("[PexipDebug] THE INVITATION LINK IS", invitationLink)
+    */
+
     let localStream: MediaStream
     let processedStream: MediaStream
     try {
@@ -403,7 +406,7 @@ export const App = (): JSX.Element => {
     }
   }
 
-  /*
+  /* Commented out by Josh Estrada. Not needed for RBFCU at this time
   const handleCopyInvitationLink = (): void => {
     const invitationLink = `https://${pexipNode}/webapp/m/${pexipAppPrefix}${conferenceAlias}/step-by-step?role=guest`
     // Added by Josh Estrada for debugging
@@ -675,6 +678,7 @@ export const App = (): JSX.Element => {
             presenting={presenting}
             onCameraMuteChanged={handleCameraMuteChanged}
             onPresentationChanged={handlePresentationChanged}
+            /* Commented out by Josh Estrada. Not needed for RBFCU at this time */
             // onCopyInvitationLink={handleCopyInvitationLink}
             onSettingsChanged={handleSettingsChanged}
           />
