@@ -185,32 +185,12 @@ export const isDialOut = async (sipSource: string): Promise<boolean> => {
     (participant) => participant.purpose === GenesysRole.CUSTOMER
   )
 
-  /**  Modified by Josh Estrada
-  Extract the root domain from sipSource (e.g., "gcp.pexsupport.com" from "pex-edge2.gcp.pexsupport.com")
-  Then check if the SIP address domain matches this root domain.
-  This allows matching regardless of subdomain configuration.
-  */
-  
-  // Extract root domain from sipSource (take last 2 parts: domain.tld)
-  const sipSourceParts = sipSource.split('.')
-  const rootDomain = sipSourceParts.slice(-2).join('.')
-  
-  const result = participant?.calls?.some(call => {
+  const result = participant?.calls?.some((call) => {
     const addr = call?.self?.addressRaw ?? ''
-    console.log("[PexipDebug] SIP address from Genesys:", addr)
-    console.log("[PexipDebug] Checking against root domain:", rootDomain)
-    
-    // Extract domain from SIP address (everything after @)
-    if (addr.includes('@')) {
-      const sipDomain = addr.split('@')[1]
-      const matches = sipDomain.endsWith(rootDomain)
-      console.log("[PexipDebug] SIP domain:", sipDomain, "| Matches:", matches)
-      return matches
-    }
-    return false
+    const regex = new RegExp(sipSource)
+    return regex.test(addr)
   })
 
-  console.log("[PexipDebug] Result of isDialOut:", result)
   return result ?? false
 }
 
