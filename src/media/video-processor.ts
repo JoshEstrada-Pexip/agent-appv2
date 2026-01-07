@@ -9,7 +9,8 @@ import {
 } from '@pexip/media-processor'
 import { type Effect } from '../types/Effect'
 
-const basePath = '/genesys-blueprint-v2'
+// Modified by Josh Estrada for RBFCU path
+const basePath = '/telecom/agent-appv2'
 
 export const getVideoProcessor = async (
   effect: Effect
